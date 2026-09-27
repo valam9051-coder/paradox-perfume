@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>PARADOX | Luxury Fragrances</title>
+  <meta name="description"
+        content="Discover PARADOX luxury fragrances. Find your signature scent.">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #090909;
+      --panel: #141414;
+      --gold: #d4af67;
+      --cream: #f5ead5;
+      --muted: #aaa39a;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: Arial, sans-serif;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 7%;
+      border-bottom: 1px solid #302719;
+      position: sticky;
+      top: 0;
+      background: #090909f5;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 28px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: var(--gold);
+    }
+
+    .cart-btn {
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      background: transparent;
+      padding: 10px 15px;
+    }
+
+    .hero {
+      min-height: 550px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 70px 20px;
+      background:
+        linear-gradient(#0009, #000b),
+        url("https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=1600&q=85")
+        center/cover;
+    }
+
+    .hero-content {
+      max-width: 750px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      letter-spacing: 5px;
+      font-size: 12px;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 7vw, 75px);
+      font-family: Georgia, serif;
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      color: #ddd0bc;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .gold-btn {
+      background: var(--gold);
+      color: #100d08;
+      padding: 15px 27px;
+      border: 1px solid var(--gold);
+      text-decoration: none;
+      display: inline-block;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .gold-btn:hover {
+      background: transparent;
+      color: var(--gold);
+    }
+
+    section {
+      padding: 75px 7%;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-heading h2 {
+      font-family: Georgia, serif;
+      font-size: 36px;
+      font-weight: normal;
+      margin-bottom: 12px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .product {
+      background: var(--panel);
+      border: 1px solid #29241b;
+      padding-bottom: 25px;
+      text-align: center;
+    }
+
+    .product img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      background: #201c17;
+    }
+
+    .product h3 {
+      margin: 22px 10px 10px;
+      font-family: Georgia, serif;
+      font-size: 23px;
+      font-weight: normal;
+    }
+
+    .notes {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 0 15px;
+      line-height: 1.7;
+    }
+
+    .price {
+      color: var(--gold);
+      font-size: 20px;
+      margin: 17px 0;
+    }
+
+    .add-btn {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 12px 22px;
+    }
+
+    .add-btn:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .about {
+      background: #12100d;
+      text-align: center;
+    }
+
+    .about p {
+      max-width: 650px;
+      margin: 20px auto 0;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .contact {
+      text-align: center;
+    }
+
+    .contact p {
+      color: var(--muted);
+      margin: 20px 0;
+      line-height: 1.8;
+    }
+
+    footer {
+      border-top: 1px solid #302719;
+      text-align: center;
+      padding: 25px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Cart popup */
+
+    .cart-panel {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      background: #000b;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .cart-panel.open {
+      display: flex;
+    }
+
+    .cart-box {
+      background: #171511;
+      border: 1px solid var(--gold);
+      padding: 30px;
+      width: 100%;
+      max-width: 450px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .cart-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+
+    .cart-top h2 {
+      color: var(--gold);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 25px;
+    }
+
+    #cart-items {
+      line-height: 2;
+      margin-bottom: 20px;
+    }
+
+    #cart-total {
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .cart-box input {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0 15px;
+      background: #090909;
+      color: white;
+      border: 1px solid #51452e;
+    }
+
+    .cart-box label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .checkout {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    @media(max-width: 750px) {
+      header {
+        padding: 18px 5%;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .logo {
+        font-size: 23px;
+      }
+
+      nav {
+        gap: 13px;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        font-size: 12px;
+      }
+
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .product img {
+        height: 320px;
+      }
+
+      section {
+        padding: 55px 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">PARADOX</div>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#shop">Collection</a>
+      <a href="#about">Our Story</a>
+      <button class="cart-btn" onclick="openCart()">
+        Bag (<span id="cart-count">0</span>)
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="eyebrow">THE ART OF FRAGRANCE</div>
+
+        <h1>Make Your Presence<br>Unforgettable.</h1>
+
+        <p>
+          Discover a world of refined fragrances.
+          Crafted for those who dare to be different.
+        </p>
+
+        <a href="#shop" class="gold-btn">
+          EXPLORE COLLECTION
+        </a>
+      </div>
+    </section>
+
+    <section id="shop">
+      <div class="section-heading">
+        <div class="eyebrow">THE SIGNATURE COLLECTION</div>
+        <h2>Discover Your Scent</h2>
+        <p>Three expressions. One unforgettable identity.</p>
+      </div>
+
+      <div class="products">
+
+        <article class="product">
+          <img
+            src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=700&q=80"
+            alt="Paradox Noir perfume bottle">
+
+          <h3>NOIR</h3>
+          <p class="notes">
+            Woody · Amber · Spicy<br>
+            Eau de Parfum · 50 ml
+          </p>
+
+          <div class="price">₹999</div>
+
+          <button class="add-btn"
+            onclick="addToCart('NOIR', 999)">
+            ADD TO BAG
+          </button>
+        </article>
+
+        <article class="product">
+          <img
+            src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=700&q=80"
+            alt="Paradox Oud perfume">
+
+          <h3>OUD ROYALE</h3>
+          <p class="notes">
+            Oud · Rose · Warm Woods<br>
+            Eau de Parfum · 50 ml
+          </p>
+
+          <div class="price">₹1,299</div>
+
+          <button class="add-btn"
+            onclick="addToCart('OUD ROYALE', 1299)">
+            ADD TO BAG
+          </button>
+        </article>
+
+        <article class="product">
+          <img
+            src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=700&q=80"
+            alt="Paradox Aura perfume">
+
+          <h3>AURA</h3>
+          <p class="notes">
+            Citrus · Musk · Fresh Woods<br>
+            Eau de Parfum · 50 ml
+          </p>
+
+          <div class="price">₹799</div>
+
+          <button class="add-btn"
+            onclick="addToCart('AURA', 799)">
+            ADD TO BAG
+          </button>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="eyebrow">BEYOND THE ORDINARY</div>
+      <div class="section-heading">
+        <h2>The PARADOX Story</h2>
+      </div>
+
+      <p>
+        PARADOX is a fragrance concept built around
+        individuality, mystery and self-expression.
+        Every scent tells a story, and every story
+        deserves to leave a lasting impression.
+      </p>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="eyebrow">CONNECT WITH US</div>
+
+      <div class="section-heading">
+        <h2>Let's Talk Fragrance</h2>
+      </div>
+
+      <p>
+        Have a question about our collection?
+        Connect with PARADOX on WhatsApp.
+      </p>
+
+      <a class="gold-btn"
+         href="https://wa.me/91YOURNUMBER"
+         target="_blank">
+        CONTACT ON WHATSAPP
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 PARADOX FRAGRANCE HOUSE</p>
+    <p style="margin-top:10px">
+      A fragrance for every identity.
+    </p>
+  </footer>
+
+  <!-- Shopping cart popup -->
+
+  <div class="cart-panel" id="cart-panel">
+    <div class="cart-box">
+
+      <div class="cart-top">
+        <h2>Your Bag</h2>
+        <button class="close-btn"
+                onclick="closeCart()">×</button>
+      </div>
+
+      <div id="cart-items">
+        Your bag is empty.
+      </div>
+
+      <h3 id="cart-total">Total: ₹0</h3>
+
+      <form id="order-form">
+        <label>Your Name</label>
+        <input id="customer-name"
+               type="text"
+               placeholder="Enter your name"
+               required>
+
+        <label>Delivery Address</label>
+        <input id="customer-address"
+               type="text"
+               placeholder="Enter delivery address"
+               required>
+
+        <label>Phone Number</label>
+        <input id="customer-phone"
+               type="tel"
+               placeholder="Enter phone number"
+               required>
+
+        <button class="gold-btn checkout" type="submit">
+          ORDER ON WHATSAPP
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    let cart = [];
+
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+
+      updateCart();
+      alert(name + " added to your bag!");
+    }
+
+    function updateCart() {
+      const count = cart.reduce(
+        (sum, item) => sum + item.qty, 0
+      );
+
+      document.getElementById("cart-count").textContent = count;
+
+      const items = document.getElementById("cart-items");
+
+      if (cart.length === 0) {
+        items.textContent = "Your bag is empty.";
+      } else {
+        items.innerHTML = cart.map((item, index) => `
+          <div>
+            ${item.name} × ${item.qty}
+            — ₹${item.price * item.qty}
+            <button onclick="removeItem(${index})"
+              style="background:none;color:#d4af67;
+              border:none;margin-left:8px">
+              Remove
+            </button>
+          </div>
+        `).join("");
+      }
+
+      const total = cart.reduce(
+        (sum, item) => sum + item.price * item.qty, 0
+      );
+
+      document.getElementById("cart-total").textContent =
+        "Total: ₹" + total.toLocaleString("en-IN");
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function openCart() {
+      document.getElementById("cart-panel")
+        .classList.add("open");
+    }
+
+    function closeCart() {
+      document.getElementById("cart-panel")
+        .classList.remove("open");
+    }
+
+    document.getElementById("order-form")
+      .addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        if (cart.length === 0) {
+          alert("Please add a perfume to your bag first.");
+          return;
+        }
+
+        const name =
+          document.getElementById("customer-name").value;
+
+        const address =
+          document.getElementById("customer-address").value;
+
+        const phone =
+          document.getElementById("customer-phone").value;
+
+        const total = cart.reduce(
+          (sum, item) => sum + item.price * item.qty, 0
+        );
+
+        const order = cart.map(item =>
+          item.name + " x " + item.qty +
+          " = Rs. " + item.price * item.qty
+        ).join("\n");
+
+        const message =
+          "Hello PARADOX! I want to place an order:\n\n" +
+          order + "\n\nTotal: Rs. " + total +
+          "\n\nName: " + meet vala +
+          "\nAddress: " + vadodara gujrat +
+          "\nPhone: " + 6352654407;
+
+        // Replace with your WhatsApp number
+        const whatsappNumber = "916352654407";
+
+        if (whatsappNumber.includes("6352654407")) {
+          alert("Please add your WhatsApp number in the code first.");
+          return;
+        }
+
+        const url =
+          "https://wa.me/" + whatsappNumber +
+          "?text=" + encodeURIComponent(message);
+
+        window.open(url, "_blank");
+      });
+
+    updateCart();
+  </script>
+
+</body>
+</html>
